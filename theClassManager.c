@@ -132,20 +132,22 @@ Student* removingStudents(Student *arrstudents, int*size) {
 
 Student* topStudentList(Student *arrStudents, int *size, int *numberTop) {
   float Gpatop = 26.25;
+  int counterTop = 0;
   Student *topStudent = malloc(*size * sizeof(Student));
   if(topStudent == NULL) {
     return NULL;
   }
   for(int i = 0; i < *size ; i++) {
     if(arrStudents[i].gpa >= Gpatop) {
-      topStudent[*numberTop] = arrStudents[i]; 
-      *(numberTop++);
+      topStudent[counterTop] = arrStudents[i]; 
+      (counterTop++);
     }
   }
-  topStudent = realloc(topStudent , *numberTop * sizeof(Student) );
+  topStudent = realloc(topStudent , counterTop * sizeof(Student) );
   if(topStudent == NULL) {
     return NULL;
   }
+  *numberTop = counterTop;
   return topStudent;
 }
 
@@ -172,5 +174,6 @@ void display(Student *arrStudent, int*size, Student *topStudentList , int *numbe
       printf("choose the right number between 1 or 2");
     }
   }
+
 
 }
