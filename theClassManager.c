@@ -17,6 +17,7 @@ Student* addingStudnets(Student *arrstudents, int *size);
 Student* removingStudents(Student *arrstudents, int*size);
 Student* topStudentList(Student *arrStudents, int *size, int *numberTop);
 void display(Student *arrStudent, int*size, Student *topStudentList , int *numberTop);
+void sortingGpa(int *size, Student *arrstudent);
 
 int main() {
 
@@ -25,8 +26,8 @@ int main() {
   int size = gettingNumberOfStudent();
   Student *topStudentLis = NULL;
   Student *studentGroup = creatingStu(&size); 
-  while (choseNum != 5) {
-   printf("Hi , I hope you doing well\n which service do you want have : \n 1- Adding student : \n 2- Removing students from the list \n 3- sort Student for Top list \n 4- Displays the list \n 5- Exit\n"); 
+  while (choseNum != 6) {
+   printf("Hi , I hope you doing well\n which service do you want have : \n 1- Adding student : \n 2- Removing students from the list \n 3- sort Student by GPA \n 4-Making new list for top student\n 5- Displays the list \n 6- Exit\n"); 
    scanf("%d", &choseNum); 
    switch (choseNum) {
      case 1 : 
@@ -36,12 +37,15 @@ int main() {
       studentGroup = removingStudents(studentGroup, &size);     
       break;  
      case 3:
+      sortingGpa(&size, studentGroup);
+     break;
+     case 4:
       topStudentLis = topStudentList(studentGroup , &size, &numberTop);
       break;
-     case 4:
+     case 5:
       display(studentGroup , &size , topStudentLis , &numberTop);
       break;
-     case 5:
+     case 6:
       printf("I hope you enjoyed our services\n");
       break;
     default:
@@ -132,22 +136,22 @@ Student* removingStudents(Student *arrstudents, int*size) {
 
 Student* topStudentList(Student *arrStudents, int *size, int *numberTop) {
   float Gpatop = 26.25;
-  int counterTop = 0;
+  int countTop = 0;
   Student *topStudent = malloc(*size * sizeof(Student));
   if(topStudent == NULL) {
     return NULL;
   }
   for(int i = 0; i < *size ; i++) {
     if(arrStudents[i].gpa >= Gpatop) {
-      topStudent[counterTop] = arrStudents[i]; 
-      (counterTop++);
+      topStudent[countTop] = arrStudents[i]; 
+      (countTop++);
     }
   }
-  topStudent = realloc(topStudent , counterTop * sizeof(Student) );
+  topStudent = realloc(topStudent , countTop * sizeof(Student) );
   if(topStudent == NULL) {
     return NULL;
   }
-  *numberTop = counterTop;
+  *numberTop = countTop;
   return topStudent;
 }
 
@@ -165,15 +169,51 @@ void display(Student *arrStudent, int*size, Student *topStudentList , int *numbe
       }
     } else if(numChose == 2) {
       if(*numberTop == 0) {
-        printf("There is no student in Top list");
+        printf("There is no student in Top list\n");
       }
       for(int i = 0 ; i < *numberTop ; i++) {
         printf("%d- ID : %d   Name : %s  GPA : %.2f \n", i+1 , topStudentList[i].Id , topStudentList[i].name, topStudentList[i].gpa);
       }
     } else {
-      printf("choose the right number between 1 or 2");
+      printf("choose the right number between 1 or 2\n");
     }
   }
 
-
 }
+
+// Student*  sortingGpa(int *size, Student *arrstudent) {
+void sortingGpa(int *size, Student *arrstudent) {
+
+  Student *sortedList = malloc(*size * sizeof(Student));
+  for(int i = 0; i < *size; i++) {
+    sortedList[i] = arrstudent[i];
+  }
+  for(int i = 0; i < *size-1 ; i++) {
+    int index = i;
+    float tempNum = sortedList[i].gpa;
+    for(int j = i+1; j < *size; j++) {
+      if(sortedList[j].gpa > tempNum ) {
+        tempNum = sortedList[j].gpa;
+        index = j;
+      }
+
+    }
+    Student temp  = sortedList[i];
+    sortedList[i] = sortedList[index];
+    sortedList[index] = temp; 
+    
+    
+  }
+  for(int i = 0; i < *size; i++) {
+    printf("%d- ID : %d   Name : %s  GPA : %.2f \n", i+1 , sortedList[i].Id , sortedList[i].name, sortedList[i].gpa);
+  }
+  
+  free(sortedList);
+}
+
+
+
+
+
+
+
