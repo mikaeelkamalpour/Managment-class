@@ -180,8 +180,6 @@ void display(Student *arrStudent, int*size, Student *topStudentList , int *numbe
   }
 
 }
-
-// Student*  sortingGpa(int *size, Student *arrstudent) {
 void sortingGpa(int *size, Student *arrstudent) {
 
   Student *sortedList = malloc(*size * sizeof(Student));
@@ -210,6 +208,7 @@ void sortingGpa(int *size, Student *arrstudent) {
   
   free(sortedList);
 }
+
 
 
 
