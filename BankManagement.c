@@ -73,6 +73,7 @@ void addingAccount (Account *dataBase, int size, int *currentNumber){
 
   int idCustomer;
   int numberAdd;
+  int found = 0;
   printf("How many customer do you wanna add? : ");
   scanf("%d", &numberAdd);
   while(getchar() != '\n');
@@ -84,8 +85,14 @@ void addingAccount (Account *dataBase, int size, int *currentNumber){
       for(int j = 0; j < *currentNumber; j++) {
         if(idCustomer == dataBase[j].accountID) {
           printf("This ID has already is in database\n");
+          found = 1;
           break;
         }
+      }
+      if(found == 1) {
+        i--;
+        (*currentNumber)--;
+        continue;
       }
        dataBase[i].accountID = idCustomer;
 
@@ -120,13 +127,14 @@ void deletingAccount (Account *dataBase, int size, int *currentNumber) {
       for(int j = i; j < *currentNumber-1; j++) {
         dataBase[j] = dataBase[j+1];
       }
+      i--;
       (*currentNumber)--;
       found = 1;
       break;
     }
   }
   if(found == 0) {
-    pritnf("The id that you enterd doesn't match with any of our customer\n");
+    printf("The id that you enterd doesn't match with any of our customer\n");
   }
 }
 
@@ -196,3 +204,6 @@ void displaying(Account *dataBase, int *currentNumber) {
     printf("%d- ID : %d Name: %s Type : %s Balance : %.2f \n",i+1, dataBase[i].accountID, dataBase[i].ownerName, dataBase[i].type, dataBase[i].balance);
   }
 }
+
+
+
